@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="home">
+  <div class="container" id="shop">
     <navBar :goback="false" :search="true" :stl="bg" />
     <div class="main">
       <div class="bg"></div>
@@ -14,7 +14,7 @@
         <div class="my-integral">
           <div class="decorate"></div>
           <span>我的积分</span>
-          <p>{{banner.ac_frozen}}</p>
+          <p>{{$store.state.userInfo.ac_reward}}</p>
           <div class="btn" @click="$router.push('/invitation')">去赚积分</div>
         </div>
         <div class="ad">
@@ -55,8 +55,7 @@ export default {
       bg: "nobg",
       banner: {
         top_banner:[],
-        small_banner:[],
-        ac_frozen:0
+        small_banner:[]
       },
       list: [],
       page: 1,
@@ -112,6 +111,7 @@ export default {
               shop_id: item.id
             })
             .then(res => {
+              this.$store.state.userInfo.ac_reward = res.data
               this.$toast.success('兑换成功！')
             });
         })
@@ -146,6 +146,11 @@ export default {
   margin-top: 64px;
   border-radius: 10px;
   overflow: hidden;
+  img {
+    width: 345px;
+    height: 170px;
+    object-fit: cover;
+  }
 }
 .info {
   display: flex;

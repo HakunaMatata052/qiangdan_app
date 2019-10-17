@@ -2,7 +2,7 @@ module.exports.theme = {
 // Basic Colors
 "@black": "#000",
 "@white": "#fff",
-"@red": "#f44",
+"@red":  "rgba(249,74,81,1)", //"#f44",
 "@blue": "#1989fa",
 "@orange": "#ff976a",
 "@orange-dark": "#ed6a0c",
@@ -532,7 +532,7 @@ module.exports.theme = {
 "@tabs-card-height": "30px",
 "@tabs-nav-background-color": "@white",
 "@tabs-bottom-bar-height": "3px",
-"@tabs-bottom-bar-color": "linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1))", //"@tabs-default-color",
+"@tabs-bottom-bar-color": "@tabs-default-color",
 // Tag
 "@tag-padding": ".2em .5em",
 "@tag-font-size": "@font-size-xs",

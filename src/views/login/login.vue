@@ -2,7 +2,7 @@
   <div id="login">
     <div class="main">
       <div class="close">
-        <van-icon name="cross" color="rgba(204,204,204,1)" @click="$router.go(-1)"/>
+        <van-icon name="cross" color="rgba(204,204,204,1)" @click="$router.go(-1)" />
       </div>
       <h1>
         登录
@@ -82,6 +82,14 @@ export default {
           that.$store.state.userInfo = res.data.userinfo_first;
           that.$store.state.isActive = res.data.userinfo_first.setting;
           that.loginLoading = false;
+          var push = api.require("push");
+          push.bind(
+            {
+              userName: res.data.userinfo_first.user_nickname,
+              userId: res.data.userinfo_first.use_rid
+            },
+            function(ret, err) {}
+          );
           that.$router.go(-1);
         })
         .catch(res => {

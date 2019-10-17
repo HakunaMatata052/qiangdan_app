@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <navBar />
+    <navBar stl="nobg"/>
     <div class="main">
-      <div class="help" @click="$router.push('/aboutus/93')">帮助</div>
       <div class="info">
         <dl>
           <dt>我的会员人数</dt>

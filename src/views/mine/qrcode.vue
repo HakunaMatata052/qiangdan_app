@@ -1,7 +1,14 @@
 <template>
   <div class="container">
     <navBar>
-      <van-button type="primary" size="mini" slot="right" v-if="edit" @click="edit=false" color="#f85f5b">取消</van-button>
+      <van-button
+        type="primary"
+        size="mini"
+        slot="right"
+        v-if="edit"
+        @click="edit=false"
+        color="#f85f5b"
+      >取消</van-button>
     </navBar>
     <div class="main">
       <div class="btn-group">
@@ -13,7 +20,7 @@
       </div>
       <div class="list">
         <div class="item" v-for="(item,index) in list" :key="index">
-          <img :src="item.qr_code" />
+          <img :src="item.qr_code" @click="imagePreview(item.qr_code)"/>
           <div class="text">
             <h3>
               <span v-if="item.payment==1">微信</span>
@@ -62,6 +69,9 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { ImagePreview } from "vant";
+Vue.use(ImagePreview);
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "qrcode",
@@ -119,6 +129,7 @@ export default {
           this.show = false;
         })
         .catch(err => {
+          this.loading = false;
           this.$toast.fail(err.msg);
         });
     },
@@ -137,7 +148,7 @@ export default {
     DelFn() {
       if (this.delList.length == 0) {
         this.$toast.fail("请选择要删除的二维码！");
-        return
+        return;
       }
       this.$SERVER
         .del_qrcode({
@@ -149,6 +160,9 @@ export default {
           this.delList = [];
           this.getList();
         });
+    },
+    imagePreview(img) {
+      ImagePreview([img]);
     }
   }
 };

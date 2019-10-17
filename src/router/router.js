@@ -34,18 +34,30 @@ const router = new Router({
           }
         },
         {
-          path: "/shop",
-          name: "shop",
-          component: () => import("@/views/index/subviews/shop.vue"),
+          path: "/orderRecordi",
+          name:"orderRecord",
+          component: () => import("@/views/mine/orderRecord.vue"),
           meta: {
-            keepAlive: true,
+            keepAlive: false,
             isTransition: true,
-            title:"积分商城",
+            title:"抢单记录",
             isMember: false,
-            isLogin:false,
-            index: 1
+            isLogin:true
           }
         },
+        // {
+        //   path: "/shop",
+        //   name: "shop",
+        //   component: () => import("@/views/index/subviews/shop.vue"),
+        //   meta: {
+        //     keepAlive: true,
+        //     isTransition: true,
+        //     title:"积分商城",
+        //     isMember: false,
+        //     isLogin:false,
+        //     index: 1
+        //   }
+        // },
         {
           path: "/message",
           name: "message",
@@ -172,6 +184,19 @@ const router = new Router({
       }
     },
     {
+      path: "/capitalFlow",
+      name:"capitalFlow",
+      component: () => import("@/views/mine/capitalFlow.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title:"资金流水",
+        isMember: false,
+        isLogin:true
+      }
+    },
+    
+    {
       path: "/invitation",
       name:"invitation",
       component: () => import("@/views/mine/invitation.vue"),
@@ -193,6 +218,69 @@ const router = new Router({
         title:"排行榜",
         isMember: false,
         isLogin:true
+      }
+    },
+    {
+      path: "/setting",
+      name:"setting",
+      component: () => import("@/views/mine/setting.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title:"设置",
+        isMember: false,
+        isLogin:true
+      }
+    },
+    //修改绑定手机
+    {
+      path: "/securityaccount",
+      name: "securityaccount",
+      component: () => import("@/views/mine/securityaccount.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "修改绑定手机",
+        isMember: false,
+        isLogin: true
+      }
+    },
+    
+    //修改绑定手机
+    {
+      path: "/securityaccount2",
+      name: "securityaccount2",
+      component: () => import("@/views/mine/securityaccount2.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "绑定新手机",
+        isMember: false,
+        isLogin: true
+      }
+    },
+    {
+      path: "/recharge",
+      name: "recharge",
+      component: () => import("@/views/other/recharge.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "兑换体力值",
+        isMember: false,
+        isLogin: true
+      }
+    },
+    {
+      path: "/rechargeDetails/:type/:id",
+      name: "rechargeDetails",
+      component: () => import("@/views/other/rechargeDetails.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "兑换体力值",
+        isMember: false,
+        isLogin: true
       }
     },
   ]

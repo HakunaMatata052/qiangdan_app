@@ -1,17 +1,18 @@
 <template>
-  <div class="container" id="video">
-    <navBar :search="true" />
-    <div class="main">
+  <div class="container">
+    <navBar :goback="false" />
+    <div class="main" id="message">
       <div class="list">
         <div class="item" v-for="(item,index) in list" :key="index">
           <div class="message-box">
-            <h3>{{item.title}}</h3>
-            <div class="con" v-html="item.content">
-            </div>
+            <h3>{{item.t}}</h3>
+            <div class="con" v-html="item.c"></div>
+            <div class="go" @click="$router.push(item.u)"></div>
           </div>
-          <p>{{$METHOD.format(item.time,'yyyy-MM-dd hh:mm:ss')}}</p>
+          <p>{{item.d}}</p>
         </div>
       </div>
+      <van-divider v-if="!list||list.length==0">暂无数据</van-divider>
     </div>
   </div>
 </template>
@@ -25,20 +26,41 @@ export default {
   },
   data() {
     return {
-      list:[]
+      list: []
     };
   },
-  created() {
-    var message = this.$METHOD.getStore("message");
-    this.list = JSON.parse(message);
+  computed: {
+    message() {
+      return this.$store.state.message;
+    }
   },
-  methods: {}
+  watch: {
+    message() {
+      this.getList();
+    }
+  },
+  mounted() {
+    this.getList();
+  },
+  methods: {
+    getList() {
+      var message = this.$METHOD.getStore("message");
+      this.list = JSON.parse(message);
+    },
+  }
 };
 </script>
 
 <style lang="less" scoped>
+#message {
+  display: flex;
+  flex-flow: column-reverse;
+  align-items: baseline;
+}
 .list {
   padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
   .item {
     .message-box {
       background: rgba(255, 255, 255, 1);
@@ -60,9 +82,15 @@ export default {
         line-height: 20px;
         padding: 15px 0;
       }
+      .go {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(51, 51, 51, 1);
+        margin-top: 20px;
+      }
     }
     p {
-      width: 125px;
+      width: 150px;
       height: 20px;
       line-height: 20px;
       margin: 10px auto;

@@ -5,12 +5,12 @@
       <div class="top">
         <div class="border"></div>
         <dl>
-          <dt>{{data.order_count}}</dt>
+          <dt>{{$store.state.userInfo.order_count}}</dt>
           <dd>总订单</dd>
         </dl>
         <dl>
-          <dt>{{data.ac_balance}}</dt>
-          <dd>总资金（元）</dd>
+          <dt>{{$store.state.userInfo.order_amount}}</dt>
+          <dd>已承兑（元）</dd>
         </dl>
       </div>
       <div class="btn-area">
@@ -18,7 +18,7 @@
           :class="isActive?'btn btn--shockwave is-active':'btn btn--shockwave'"
           @click="activeFn"
         >
-          <span>可抢金额:{{data.keqiang_amount}}元</span>
+          <span>可抢金额:{{$store.state.userInfo.keqiang_amount}}元</span>
           <p v-if="isActive">抢单中</p>
           <p v-else>自动抢单</p>
         </div>
@@ -33,7 +33,10 @@
           :show-indicators="false"
         >
           <van-swipe-item v-for="(item,index) in list" :key="index" class="item">
-            <span>{{item.user_nickname}}</span>通过 <span v-if="item.payment==1">微信</span><span v-else-if="item.payment==2">支付宝</span>二维码 抢了{{item.price}}元订单
+            <span>{{item.user_nickname}}</span>通过
+            <span v-if="item.payment==1">微信</span>
+            <span v-else-if="item.payment==2">支付宝</span>
+            二维码 抢了{{item.price}}元订单
           </van-swipe-item>
         </van-swipe>
       </div>
@@ -51,8 +54,7 @@ export default {
   data() {
     return {
       notifyMrg: null,
-      data:{},
-      list:[]
+      list: []
     };
   },
   computed: {
@@ -76,11 +78,13 @@ export default {
               ret.title == "微信支付"
             ) {
               var result = /[1-9]\d*\.\d*|0\.\d*[1-9]\d*/.exec(ret.text);
-              that.$SERVER
-                .payment({
-                  payment: 1,
-                  price: result[0]
-                })
+              that.payment(1, result[result.length-1]);
+            } else if (
+              ret.packageName == "com.eg.android.AlipayGphone" &&
+              ret.title == "支付宝通知"
+            ) {
+              var result = /[1-9]\d*\.\d*|0\.\d*[1-9]\d*/.exec(ret.text);
+              that.payment(2, result[result.length-1]);
             }
           });
         });
@@ -93,19 +97,28 @@ export default {
     navBar
   },
   created() {
-    this.getList()
+    this.getList();
     this.notifyMrg = api.require("notifyMrg");
     this.isEnabled();
   },
   mounted() {},
-  activated() {
-    this.indexData()
-  },
   methods: {
-    getList(){
-      this.$SERVER.carousel().then(res=>{
-        this.list = res.data
-      })
+    payment(type, price) {
+      this.$SERVER
+        .payment({
+          payment: type,
+          price: price
+        })
+        .then(res => {
+          this.$store.state.userInfo.order_amount = res.data.order_amount;
+          this.$store.state.userInfo.order_count = res.data.order_count;
+          this.$store.state.userInfo.keqiang_amount = res.data.keqiang_amount;
+        });
+    },
+    getList() {
+      this.$SERVER.carousel().then(res => {
+        this.list = res.data;
+      });
     },
     activeFn() {
       this.$SERVER
@@ -136,11 +149,6 @@ export default {
           fn();
         }
       }
-    },
-    indexData(){
-      this.$SERVER.index_order().then(res=>{
-        this.data = res.data
-      })
     }
   }
 };
@@ -165,7 +173,7 @@ export default {
   }
   dl {
     padding-left: 30px;
-    margin-right: 20px;
+    margin-right: 50px;
     dt {
       font-size: 30px;
       font-weight: 400;

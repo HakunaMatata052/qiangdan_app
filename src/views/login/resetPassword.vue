@@ -37,8 +37,6 @@
           </van-cell-group>
           <van-field v-model="form.password" type="password" placeholder="请输入新密码" class="field"></van-field>
           <van-field v-model="form.password2" type="password" placeholder="请再次输入新密码" class="field"></van-field>
-          <van-cell to="/accountappeal" value-class="right-text">
-        手机无法接收验证码</van-cell>
         </van-cell-group>
         <van-button
           type="primary"
@@ -173,14 +171,12 @@ export default {
   .main {
     width: 90%;
   }
-  .field {
-  }
   .checknumbtn {
-    background: #5196FF;
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border: 0;
   }
   .regbtn {
-    background: #5196FF;
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border-radius: 100px;
     margin-top: 30px;
     font-size: 17px;
@@ -193,7 +189,7 @@ export default {
     text-align: right;
     color: #999;
     span {
-      color: #5196FF;
+      color: rgba(249,74,81,1);
       margin-left: 5px;
     }
   }

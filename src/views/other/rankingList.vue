@@ -12,7 +12,7 @@
       <table class="table" border="0">
         <tr>
           <th width="90%">排行</th>
-          <th>收益</th>
+          <th>已承兑</th>
         </tr>
         <tr v-for="(item,index) in list" :key="index">
           <td>
@@ -30,6 +30,7 @@
           <td class="num">{{item.sum_price}}</td>
         </tr>
       </table>
+      <van-divider v-if="list.length==0">暂无数据</van-divider>
     </div>
   </div>
 </template>
@@ -67,7 +68,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .table {
-  width: 80%;
+  width: 90%;
   margin: 20px auto;
   th {
     text-align: left;

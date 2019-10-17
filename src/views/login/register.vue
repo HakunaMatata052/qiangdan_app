@@ -60,10 +60,6 @@
           已有账号，
           <span @click="$router.push('/login')">立即登录</span>
         </div>
-        <p>
-          注册即同意
-          <span @click="$router.push('/aboutus/92')">《用户协议》</span>
-        </p>
       </div>
     </div>
   </div>
@@ -166,7 +162,7 @@ export default {
       font-size: 14px;
       span {
         text-decoration: underline;
-        color: rgba(81, 150, 255, 1);
+        color: rgba(249,74,81,1);
       }
     }
     .cell-group {
@@ -197,12 +193,12 @@ export default {
     }
   }
   .checknumbtn {
-    background: rgba(81, 150, 255, 1);
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border: 0;
     border-radius: 18px;
   }
   .regbtn {
-    background: rgba(81, 150, 255, 1);
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border-radius: 100px;
     margin-top: 30px;
     border: 0;
@@ -217,7 +213,7 @@ export default {
     color: #999;
     span {
       text-decoration: underline;
-      color: rgba(81, 150, 255, 1);
+      color: rgba(249,74,81,1);
     }
   }
 }

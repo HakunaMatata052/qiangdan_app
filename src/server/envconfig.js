@@ -5,11 +5,12 @@ let baseURL;
 
 if (process.env.NODE_ENV === "production") {
   // 干一些线上才要做的事情
-  baseURL = "http://192.168.0.107/graborder/public/index.php/api";
+  baseURL = "http://47.244.23.226/api/";
 }
 if (process.env.NODE_ENV === "development") {
   // 干一些测试时不可告人的事情
-  // baseURL = "http://192.168.0.104/graborder/public/index.php/api";
-  baseURL = "/api/";
+  // baseURL = "http://192.168.0.107/api";
+  // baseURL = "/api/";
+  baseURL = "http://47.244.23.226/api/";
 }
 export default { baseURL };

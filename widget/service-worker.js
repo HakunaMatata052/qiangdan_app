@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.783f48397e9a8fa64aa080243be2e2ed.js"
+  "precache-manifest.8ad4c5bbec79f977be52679c8198fdda.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "vue-apiCloud-model-mobile"});

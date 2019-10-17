@@ -22,7 +22,10 @@ export default new Vuex.Store({
     qiniuaddr: "http://95youhe.com/",  //七牛地址
     register:{
 
-    }
+    },
+    message:null,
+    recharge:null,
+    qq:"10000"
   },
   mutations: {},
   actions: {}

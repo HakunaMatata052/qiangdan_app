@@ -3,23 +3,23 @@
     <navBar />
     <div class="main">
       <div class="balance">
-        <h3>账户余额</h3>
+        <h3>体力值</h3>
         <p>{{$store.state.userInfo.ac_balance}}</p>
       </div>
       <div class="profit">
         <dl>
-          <dt>昨日收益</dt>
+          <dt>昨日承兑</dt>
           <dd>{{$store.state.userInfo.zuo_amount}}</dd>
         </dl>
         <dl>
-          <dt>总收益</dt>
+          <dt>已承兑</dt>
           <dd>{{$store.state.userInfo.order_amount}}</dd>
         </dl>
       </div>
-      <p class="liushui">查看资金流水</p>
+      <p class="liushui" @click="$router.push('/capitalFlow')">查看资金流水</p>
       <div class="btn-group">
-        <div class="btn">充值</div>
-        <div class="btn">提现</div>
+        <div class="btn" @click="$router.push('/recharge')">充值</div>
+        <van-button type="default" class="btn" @click="withdraw">提现</van-button>
       </div>
     </div>
   </div>
@@ -31,6 +31,20 @@ export default {
   name: "wallet",
   components: {
     navBar
+  },
+  data(){
+    return {
+      loading:false
+    }
+  },
+  methods:{
+    withdraw(){
+      this.loading = true
+      this.$SERVER.withdraw().then(res=>{
+        this.$toast.success(res.msg)
+        this.loading = false
+      })
+    }
   }
 };
 </script>

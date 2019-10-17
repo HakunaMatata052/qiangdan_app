@@ -112,12 +112,7 @@ export default class Axios {
       // 处理get、post传参问题
       method.toUpperCase() !== "GET" ?
         // (_option.data = {...params,...{token:store.state.token}}) :
-        (_option.data = Object.prototype.toString.call(params) === '[object FormData]' ? params : {
-          ...params,
-          ...{
-            token: store.state.token
-          }
-        }) :
+        (_option.data = Object.prototype.toString.call(params) === '[object FormData]'? params:{...params,...{token:store.state.token}}) :
         (_option.params = params);
       // 请求成功后服务器返回二次处理
       if(!window.localStorage.getItem('token')&&config&&config.isLogin){
@@ -129,7 +124,9 @@ export default class Axios {
           if (res.data.code == 1) {
             resolve(res.data);
           } else {
-            Toast.fail(res.data.msg);
+            if(!config||!config.fail){
+              Toast.fail(res.data.msg);
+            }
             reject(res.data)
           }
         },

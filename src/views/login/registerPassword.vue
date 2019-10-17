@@ -85,6 +85,14 @@ export default {
           that.$store.state.token = res.data.userinfo.token;
           that.$store.state.userInfo = res.data.userinfo_first;
           that.$toast.success(res.msg);
+          var push = api.require("push");
+          push.bind(
+            {
+              userName: res.data.userinfo_first.user_nickname,
+              userId: res.data.userinfo_first.use_rid
+            },
+            function(ret, err) {}
+          );
           that.$router.push("/");
         })
         .catch(err => {
@@ -142,12 +150,12 @@ export default {
   .field {
   }
   .checknumbtn {
-    background: rgba(81, 150, 255, 1);
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border: 0;
     border-radius: 18px;
   }
   .regbtn {
-    background: rgba(81, 150, 255, 1);
+    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
     border-radius: 100px;
     margin-top: 90px;
     border: 0;
@@ -162,7 +170,7 @@ export default {
     color: #999;
     span {
       text-decoration: underline;
-      color: rgba(81, 150, 255, 1);
+      color: rgba(249,74,81,1);
     }
   }
 }

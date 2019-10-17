@@ -3,8 +3,8 @@
     <navBar />
     <div class="main">
       <div class="btn-group">
-        <div class="btn">保证金充值</div>
-        <div class="btn">立即去抢单</div>
+        <div class="btn" @click="$router.push('/recharge')">体力值充值</div>
+        <div class="btn" @click="$router.push('/')">立即去抢单</div>
       </div>
       <van-collapse v-model="activeTime" :border="false " accordion @change="getMon">
         <van-collapse-item :title="key" :name="key" :border="false" v-for="(i,key) in list" :key="key">
@@ -12,13 +12,14 @@
             <div class="item" v-for="(j,index) in i" :key="index">
               <h5>{{j.time}}</h5>
               <p>
-                <span>{{j.name}}</span> 通过 <span v-if="j.payment==1">微信</span><span v-else-if="j.payment==2">支付宝</span>二维码 转账
+                通过 <span v-if="j.payment==1">微信</span><span v-else-if="j.payment==2">支付宝</span>二维码 收款
                 <span>{{j.price}}元</span>
               </p>
             </div>
           </div>
         </van-collapse-item>
       </van-collapse>
+      <van-divider v-if="JSON.stringify(list)=='{}'">暂无数据</van-divider>
     </div>
   </div>
 </template>

@@ -6,7 +6,7 @@ const {
   spawn
 } = require("child_process");
 
-const appname = "apiCloud"; // 项目文件名
+const appname =  "widget" // "apicloud" //"widget"; // 项目文件名
 const appPort = 1111; // 真机同步端口,浏览器打开端口。(请与)
 const scriptActive = process.env.npm_lifecycle_event;
 const customTheme = require("./van-custom-theme")
@@ -30,10 +30,10 @@ if (scriptActive === "apicloud") {
 
 module.exports = {
   publicPath: process.env.NODE_ENV === "production" ? "./" : "./",
-  outputDir: "widget", // 运行时生成的生产环境构建文件的目录(默认""dist""，构建之前会被清除)
+  outputDir: appname, // 运行时生成的生产环境构建文件的目录(默认""dist""，构建之前会被清除)
   assetsDir: "public", //放置生成的静态资源(s、css、img、fonts)的(相对于 outputDir 的)目录(默认"")
   indexPath: "index.html", //指定生成的 index.html 的输出路径(相对于 outputDir)也可以是一个绝对路径。
-  filenameHashing: true, // 是否生产文件名Hash
+  filenameHashing: false, // 是否生产文件名Hash
   pages: {
     //pages 里配置的路径和文件名在你的文档目录必须存在 否则启动服务会报错
     index: {
@@ -135,12 +135,12 @@ module.exports = {
     port: appPort,
     https: false,
     hotOnly: false,
-    open: false, //配置自动启动浏览器
+    open: true, //配置自动启动浏览器
     disableHostCheck: true ,//外网映射
     proxy: {
       // 配置多个代理(配置一个 proxy: "http://localhost:4000" )
       "/api": {
-        target: "http://192.168.0.107/graborder/public/index.php/api",
+        target: "http://192.168.0.107/api",
         changeOrigin: true, 
         pathRewrite: {
           "^/api": "/"

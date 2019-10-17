@@ -38,8 +38,8 @@ export default {
           index: 0
         },
         {
-          title: "商城",
-          path: "/shop",
+          title: "记录",
+          path: "/orderRecordi",
           icon: "shop",
           icon_press: "shop-active",
           index: 1

@@ -6,6 +6,18 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
+    <van-popup
+      v-model="show"
+      position="top"
+      :overlay="false"
+      :lock-scroll="false"
+      :round="true"      
+    >
+      <div class="message" @click.stop="closeMessage">
+        <h3>{{message.title}}</h3>
+        <p>{{message.content}}</p>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -16,7 +28,13 @@ export default {
   data() {
     return {
       transitionName: "",
-      keepAlive: []
+      keepAlive: [],
+      push: null,
+      show: false,
+      message: {
+        title: "",
+        content: ""
+      }
     };
   },
   created() {
@@ -60,40 +78,38 @@ export default {
             });
         }
       );
-      var push = api.require("push");
-      if (this.$METHOD.getStore("token")) {
-        push.bind(
-          {
-            userName: this.$store.state.userInfo.user_nickname,
-            userId: this.$store.state.userInfo.use_rid
-          },
-          function(ret, err) {}
-        );
-      }
-      push.setListener(function(ret, err) {
+      this.push = api.require("push");
+      this.push.setListener(function(ret, err) {
         if (ret) {
-          
-          var content = JSON.parse(ret.data)
-          //仅提示音
+          var content = JSON.parse(ret.data);
+          var des = content.c.replace("<br>", "");
           api.notification({
-            sound: "default",
             notify: {
-              title: content.title
+              title: content.t,
+              content: des
             }
           });
-          var message = []
-          if(that.$METHOD.getStore('message')){
-            message = that.$METHOD.getStore('message')
-          }else{
-            message= '[]'
+          that.message.title = content.t;
+          that.message.content = des;
+          that.show = true;
+          setTimeout(() => {
+            that.show = false;
+          }, 3000);
+          var message = [];
+          if (that.$METHOD.getStore("message")) {
+            message = that.$METHOD.getStore("message");
+          } else {
+            message = "[]";
           }
-          message = JSON.parse(message)
-          message.push(content)
-          that.$METHOD.setStore('message',message)
+          message = JSON.parse(message);
+          message.push(content);
+          that.$METHOD.setStore("message", message);
+          that.$store.state.message = new Date().getTime();
         }
       });
     }
     this.setVux();
+    this.allEvent();
   },
   mounted() {
     // console.log(this.keepAlive); // 设置缓存匹配
@@ -110,10 +126,12 @@ export default {
         }
       });
     },
-
+    closeMessage(){
+      this.$router.push('/message')
+      this.show = false
+    },
     allEvent() {
       var that = this;
-      // 点击消息状态栏跳转
       api.addEventListener(
         {
           name: "swiperight"
@@ -131,12 +149,14 @@ export default {
         }
       );
       //点击消息状态栏跳转
-        api.addEventListener({
-            name: 'noticeclicked'
-        }, function (ret, err) {
-                console.log(123)
-                alert(123)
-        });
+      api.addEventListener(
+        {
+          name: "noticeclicked"
+        },
+        function(ret, err) {
+          that.$router.push("/message");
+        }
+      );
     },
     setVux() {
       if (this.$METHOD.getStore("token")) {
@@ -144,6 +164,19 @@ export default {
         this.$SERVER.information().then(res => {
           this.$store.state.userInfo = res.data;
           this.$store.state.isActive = Boolean(res.data.setting);
+          this.push.joinGroup(
+            {
+              groupName: "department"
+            },
+            function(ret, err) {}
+          );
+          this.push.bind(
+            {
+              userName: res.data.user_nickname,
+              userId: res.data.use_rid
+            },
+            function(ret, err) {}
+          );
         });
       }
     }
@@ -212,5 +245,17 @@ export default {
 .slide-left-leave-active {
   opacity: 1;
   transform: translate3d(-100%, 0, 0);
+}
+.message {
+  padding: 40px 15px 20px;
+  h3 {
+    color: #333;
+  }
+  p {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 35px;
+  }
 }
 </style>

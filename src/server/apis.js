@@ -11,6 +11,9 @@ class Api extends Axios {
   async login(params = {}) {
     return await this.axios("POST", "user/login", params);
   }
+  async logout(params = {}) {
+    return await this.axios("POST", "user/logout", params)
+  }
   async register(params = {}) {
     return await this.axios("POST", "user/register", params);
   }
@@ -26,6 +29,13 @@ class Api extends Axios {
   async exchange_log(params = {}) {
     return await this.axios("POST", "shop/exchange_log", params,{isLogin:true});
   }
+  async convert_log(params = {}) {
+    return await this.axios("POST", "user/convert_log", params,{isLogin:true});
+  }
+  async money_log(params = {}) {
+    return await this.axios("POST", "user/money_log", params,{isLogin:true});
+  }
+  
   async qrcode(params = {}) {
     return await this.axios("POST", "userinfo/qrcode", params,{isLogin:true});
   }
@@ -42,7 +52,7 @@ class Api extends Axios {
     return await this.axios("POST", "userinfo/information", params);
   }
   async payment(params = {}) {
-    return await this.axios("POST", "graborder/payment", params);
+    return await this.axios("POST", "graborder/payment", params,{fail:true});
   }  
   async index_order(params = {}) {
     return await this.axios("POST", "User/index_order", params);
@@ -64,6 +74,27 @@ class Api extends Axios {
   }
   async leaderboard(params = {}) {
     return await this.axios("POST", "graborder/leaderboard", params);
+  }
+  async sms_check(params = {}) {
+    return await this.axios("POST", "User/sms_check", params);
+  }
+  async chongzhi(params = {}) {
+    return await this.axios("POST", "userinfo/chongzhi", params);
+  }
+  async recharge(params = {}) {
+    return await this.axios("POST", "userinfo/recharge", params);
+  }
+  async certificate(params = {}) {
+    return await this.axios("POST", "userinfo/certificate", params);
+  }
+  async rechargeDetail(params = {}) {
+    return await this.axios("POST", "userinfo/detail", params);
+  }
+  async withdraw(params = {}) {
+    return await this.axios("POST", "userinfo/withdraw", params);
+  }
+  async certificate(params = {}) {
+    return await this.axios("POST", "userinfo/certificate", params);
   }
 }
 
