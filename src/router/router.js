@@ -100,7 +100,7 @@ const router = new Router({
       }
     },
     {
-      path: "/register",
+      path: "/register/:val?",
       name:"register",
       component: () => import("@/views/login/register.vue"),
       meta: {
@@ -286,7 +286,13 @@ const router = new Router({
   ]
 });
 router.beforeEach((to, from, next) => {
-
+  if (to.name != "register" && to.name != "registerPassword") {
+    if (!window.navigator.userAgent.match(/APICloud/i)) {
+      if (process.env.NODE_ENV === "production") {
+        window.location.href = "https://fir.im/qiangda"
+      }
+    }
+  }
   if (to.meta.index!=undefined) {
     store.state.tabActiveIndex = to.meta.index
   }

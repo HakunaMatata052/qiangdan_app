@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <navBar :goback="false" />
+    <navBar :goback="false" :search="false">
+      <van-button type="danger" size="mini" slot="right" @click="removeMessage">清空</van-button>
+    </navBar>
+    <van-divider v-if="!list||list.length==0">暂无数据</van-divider>
     <div class="main" id="message">
       <div class="list">
         <div class="item" v-for="(item,index) in list" :key="index">
@@ -12,7 +15,6 @@
           <p>{{item.d}}</p>
         </div>
       </div>
-      <van-divider v-if="!list||list.length==0">暂无数据</van-divider>
     </div>
   </div>
 </template>
@@ -44,9 +46,23 @@ export default {
   },
   methods: {
     getList() {
-      var message = this.$METHOD.getStore("message");
-      this.list = JSON.parse(message);
+      if (this.$METHOD.getStore("message")) {
+        var message = this.$METHOD.getStore("message");
+        this.list = JSON.parse(message);
+      }
     },
+    removeMessage() {
+      this.$dialog
+        .confirm({
+          title: "提示",
+          message: `是否清空消息列表？`
+        })
+        .then(() => {
+          this.$METHOD.removeStore("message");
+          this.list = [];
+          this.$toast.success('消息列表已清空！')
+        });
+    }
   }
 };
 </script>

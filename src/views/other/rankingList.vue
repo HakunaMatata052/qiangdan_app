@@ -93,11 +93,11 @@ export default {
     .avatar {
       position: relative;
       img {
+        display: block;
         width: 44px;
         height: 44px;
         margin-right: 10px;
         border-radius: 50%;
-
         border: 4px solid rgba(255, 255, 255, 0.33);
       }
     }
