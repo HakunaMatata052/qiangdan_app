@@ -1,18 +1,16 @@
 <template>
   <div class="container">
-    <navBar />
+    <navBar :title="title"/>
     <div class="main">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getList">
         <table class="table" border="0">
           <tr>
-            <th align="left" width="30%">时间</th>
-            <th align="center" width="20%">类型</th>
+            <th align="left" width="50%">时间</th>
             <th align="right">金额</th>
           </tr>
           <tr v-for="(item,index) in list" :key="index">
-            <td align="left">{{item.updated_at}}</td>
-            <td align="center">{{item.type}}</td>
-            <td align="right">{{item.amount}}</td>
+            <td align="left">{{$METHOD.format(item.create_time,'yyyy-MM-dd hh:mm:ss')}}</td>
+            <td align="right">{{item.money}}</td>
           </tr>
         </table>
       </van-list>
@@ -23,7 +21,7 @@
 <script>
 import navBar from "@/components/navbar/navbar.vue";
 export default {
-  name: "capitalFlow",
+  name: "incomeRecord",
   components: {
     navBar
   },
@@ -32,8 +30,12 @@ export default {
       list: [],
       page: 1,
       loading: false,
-      finished: false
+      finished: false,
+      title:""
     };
+  },
+  created(){
+      this.title = this.$route.params.user      
   },
   methods: {
     getList(isClear) {
@@ -42,8 +44,9 @@ export default {
         this.page = 1;
       }
       this.$SERVER
-        .money_log({
-          page: this.page
+        .user_moneyinfo({
+          page: this.page,
+          user_id: this.$route.params.id
         })
         .then(res => {
           this.loading = false;

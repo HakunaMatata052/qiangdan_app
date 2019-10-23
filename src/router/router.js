@@ -217,7 +217,7 @@ const router = new Router({
         isTransition: true,
         title:"排行榜",
         isMember: false,
-        isLogin:true
+        isLogin:false
       }
     },
     {
@@ -283,13 +283,37 @@ const router = new Router({
         isLogin: true
       }
     },
+    {
+      path: "/userList",
+      name: "userList",
+      component: () => import("@/views/mine/userList.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "会员明细",
+        isMember: false,
+        isLogin: false
+      }
+    },
+    {
+      path: "/incomeRecord/:id/:user",
+      name: "incomeRecord",
+      component: () => import("@/views/mine/incomeRecord.vue"),
+      meta: {
+        keepAlive: false,
+        isTransition: true,
+        title: "收益记录",
+        isMember: false,
+        isLogin: false
+      }
+    },    
   ]
 });
 router.beforeEach((to, from, next) => {
   if (to.name != "register" && to.name != "registerPassword") {
     if (!window.navigator.userAgent.match(/APICloud/i)) {
       if (process.env.NODE_ENV === "production") {
-        window.location.href = "https://fir.im/qiangda"
+        router.push('/register')
       }
     }
   }

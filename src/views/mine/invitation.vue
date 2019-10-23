@@ -3,7 +3,7 @@
     <navBar stl="nobg"/>
     <div class="main">
       <div class="info">
-        <dl>
+        <dl @click="$router.push('/userList')">
           <dt>我的会员人数</dt>
           <dd>{{info.my_vip_count}}</dd>
         </dl>
@@ -41,6 +41,10 @@ export default {
     };
   },
   created() {
+    if(this.$store.state.userInfo.proxy == 7){
+      this.$toast.fail('您的等级无法邀请用户！')
+      this.$router.push('/')
+    }
     this.$SERVER.spread().then(res => {
       this.info = res.data;
     });

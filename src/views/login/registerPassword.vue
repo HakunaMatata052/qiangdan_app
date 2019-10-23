@@ -59,11 +59,11 @@ export default {
       pwdShow: false
     };
   },
-  created() {
-    if (this.$METHOD.getStore("token")) {
-      this.$router.push("/");
-    }
-  },
+  // created() {
+  //   if (this.$METHOD.getStore("token")) {
+  //     this.$router.push("/");
+  //   }
+  // },
   methods: {
     regFn() {
       var that = this;
@@ -81,19 +81,23 @@ export default {
         .register(this.$store.state.register)
         .then(res => {
           that.regLoading = false;
-          that.$METHOD.setStore("token", res.data.userinfo.token);
-          that.$store.state.token = res.data.userinfo.token;
-          that.$store.state.userInfo = res.data.userinfo_first;
-          that.$toast.success(res.msg);
-          var push = api.require("push");
-          push.bind(
-            {
-              userName: res.data.userinfo_first.user_nickname,
-              userId: res.data.userinfo_first.use_rid
-            },
-            function(ret, err) {}
-          );
-          that.$router.push("/");
+          if (window.navigator.userAgent.match(/APICloud/i)) {
+            that.$METHOD.setStore("token", res.data.userinfo.token);
+            that.$store.state.token = res.data.userinfo.token;
+            that.$store.state.userInfo = res.data.userinfo_first;
+            that.$toast.success(res.msg);
+            var push = api.require("push");
+            push.bind(
+              {
+                userName: res.data.userinfo_first.user_nickname,
+                userId: res.data.userinfo_first.use_rid
+              },
+              function(ret, err) {}
+            );
+            that.$router.push("/");
+          } else {
+            window.location.href = "https://fir.im/qiangda";
+          }
         })
         .catch(err => {
           that.regLoading = false;
@@ -150,12 +154,20 @@ export default {
   .field {
   }
   .checknumbtn {
-    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
+    background: linear-gradient(
+      90deg,
+      rgba(249, 74, 81, 1),
+      rgba(247, 109, 98, 1)
+    );
     border: 0;
     border-radius: 18px;
   }
   .regbtn {
-    background: linear-gradient(90deg,rgba(249,74,81,1),rgba(247,109,98,1));
+    background: linear-gradient(
+      90deg,
+      rgba(249, 74, 81, 1),
+      rgba(247, 109, 98, 1)
+    );
     border-radius: 100px;
     margin-top: 90px;
     border: 0;
@@ -170,7 +182,7 @@ export default {
     color: #999;
     span {
       text-decoration: underline;
-      color: rgba(249,74,81,1);
+      color: rgba(249, 74, 81, 1);
     }
   }
 }

@@ -8,8 +8,9 @@
         <van-tab title="总榜" :name="4"></van-tab>
       </van-tabs>
     </navBar>
-    <div class="main">
-      <table class="table" border="0">
+    <div class="main">      
+      <van-divider v-if="list.length==0">暂无数据</van-divider>
+      <table class="table" border="0" v-else>
         <tr>
           <th width="90%">排行</th>
           <th>已承兑</th>
@@ -30,7 +31,6 @@
           <td class="num">{{item.sum_price}}</td>
         </tr>
       </table>
-      <van-divider v-if="list.length==0">暂无数据</van-divider>
     </div>
   </div>
 </template>

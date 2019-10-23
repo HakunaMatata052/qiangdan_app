@@ -5,14 +5,12 @@
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getList">
         <table class="table" border="0">
           <tr>
-            <th align="left" width="30%">时间</th>
-            <th align="center" width="20%">类型</th>
-            <th align="right">金额</th>
+            <th align="left" width="50%">手机号</th>
+            <th align="right">注册时间</th>
           </tr>
-          <tr v-for="(item,index) in list" :key="index">
-            <td align="left">{{item.updated_at}}</td>
-            <td align="center">{{item.type}}</td>
-            <td align="right">{{item.amount}}</td>
+          <tr v-for="(item,index) in list" :key="index" @click="$router.push('/incomeRecord/'+item.use_rid+'/'+item.user_account)">
+            <td align="left">{{item.user_account}}</td>
+            <td align="right">{{$METHOD.format(item.user_reg_time,'yyyy-MM-dd hh:mm:ss')}}</td>
           </tr>
         </table>
       </van-list>
@@ -23,7 +21,7 @@
 <script>
 import navBar from "@/components/navbar/navbar.vue";
 export default {
-  name: "capitalFlow",
+  name: "userList",
   components: {
     navBar
   },
@@ -42,7 +40,7 @@ export default {
         this.page = 1;
       }
       this.$SERVER
-        .money_log({
+        .user_downinfo({
           page: this.page
         })
         .then(res => {

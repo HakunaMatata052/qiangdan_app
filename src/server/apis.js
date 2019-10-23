@@ -96,6 +96,13 @@ class Api extends Axios {
   async certificate(params = {}) {
     return await this.axios("POST", "userinfo/certificate", params);
   }
+  async user_downinfo(params = {}) {
+    return await this.axios("POST", "User/user_downinfo", params);
+  }  
+  async user_moneyinfo(params = {}) {
+    return await this.axios("POST", "User/user_moneyinfo", params);
+  }
+  
 }
 
 export default new Api();

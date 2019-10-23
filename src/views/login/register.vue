@@ -13,6 +13,7 @@
               type="number"
               :border="false"
               pattern="[0-9]*"
+               autofocus="autofocus"
             ></van-field>
           </div>
           <div class="cell-group">
@@ -41,8 +42,9 @@
             <p class="recommendedPhone">邀请码</p>
             <van-field
               v-model="$store.state.register.retail_code"
-              placeholder="选填"
+              placeholder="请输入邀请码"
               class="field choose"
+              readonly
               :border="false"
             ></van-field>
           </div>
@@ -61,12 +63,17 @@
           <span @click="$router.push('/login')">立即登录</span>
         </div>
       </div>
+      <van-popup v-model="tipsShow" get-container="body" :close-on-click-overlay="false" class="popup">
+        <img :src="bg">
+      </van-popup>
     </div>
   </div>
 </template>
 <script>
 import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
+import bg from "@/assets/images/bg.png";
+import {isWeixin} from "@/common/js/wx_sdk.js"; // 引入全局方法
 export default {
   name: "register",
   components: {
@@ -78,10 +85,15 @@ export default {
       checkNumDisabled: false,
       countDown: 60,
       checked: true,
-      timer: null
+      timer: null,
+      bg:bg,
+      tipsShow:false
     };
   },
   created() {
+    if(isWeixin()){
+      this.tipsShow = true
+    }
     if (this.$METHOD.getStore("token")) {
       this.$router.push("/");
     }
@@ -131,6 +143,10 @@ export default {
       }
       if (this.$store.state.register.captcha == "") {
         this.$toast.fail("请输入验证码");
+        return;
+      }
+      if ($store.state.register.retail_code == "") {
+        this.$toast.fail("请输入邀请码");
         return;
       }
       that.$router.push("/registerPassword");
@@ -215,6 +231,19 @@ export default {
       text-decoration: underline;
       color: rgba(249,74,81,1);
     }
+  }
+}
+.popup {
+  background-color: transparent;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content:flex-end;
+  align-items:flex-start;  
+    width: 100%;
+    height: 100%;
+  img{
+    max-width: 100%;
+    height: auto;
   }
 }
 </style>

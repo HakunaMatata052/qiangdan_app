@@ -19,8 +19,8 @@
           @click="activeFn"
         >
           <span>可抢金额:{{$store.state.userInfo.keqiang_amount}}元</span>
-          <p v-if="isActive">抢单中</p>
-          <p v-else>自动抢单</p>
+          <p v-if="isActive">运行中</p>
+          <p v-else>启动服务</p>
         </div>
       </div>
       <div class="userList">

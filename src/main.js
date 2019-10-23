@@ -38,8 +38,8 @@ Vue.use(Navigation, {
 if (window.navigator.userAgent.match(/APICloud/i)) {
 // if (true) {
   window.apiready = function() {
-    // process.env.NODE_ENV === "development" && new VConsole()
-    new VConsole()
+    process.env.NODE_ENV === "development" && new VConsole()
+    // new VConsole()
     // 将API链接Vue原型，后续通过this.api代替window.api
     Vue.prototype.api = window.api;
     new Vue({

@@ -21,7 +21,10 @@ export default new Vuex.Store({
     },  //用户定位
     qiniuaddr: "http://95youhe.com/",  //七牛地址
     register:{
-
+      user_account:"",
+      captcha: "",
+      retail_code: "",
+      newpassword: ""
     },
     message:null,
     recharge:null,

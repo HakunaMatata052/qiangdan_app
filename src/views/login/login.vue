@@ -17,6 +17,7 @@
           type="number"
           pattern="[0-9]*"
           :border="false"
+          autofocus="autofocus"
         ></van-field>
         <van-field
           v-model="form.user_pwd"

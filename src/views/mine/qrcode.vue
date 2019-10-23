@@ -20,7 +20,7 @@
       </div>
       <div class="list">
         <div class="item" v-for="(item,index) in list" :key="index">
-          <img :src="item.qr_code" @click="imagePreview(item.qr_code)"/>
+          <img :src="item.qr_code" @click="imagePreview(item.qr_code)" />
           <div class="text">
             <h3>
               <span v-if="item.payment==1">微信</span>
@@ -40,17 +40,8 @@
       <van-divider v-if="list.length==0">暂无数据</van-divider>
       <van-dialog v-model="show" :showConfirmButton="false" closeOnClickOverlay>
         <div class="uploadDialog">
-          <div class="select" @click="optionShow = true">
+          <div class="select">
             <h3>{{paymentText}}</h3>
-            <div class="option" v-show="optionShow">
-              <div
-                class="item"
-                v-for="(item,index) in option"
-                :key="index"
-                :data-type="item.value"
-                @click.stop="optionFn($event)"
-              >{{item.text}}</div>
-            </div>
           </div>
           <van-uploader :after-read="upload" :accept="'image/*'" :max-count="1">
             <van-button
@@ -73,6 +64,7 @@ import Vue from "vue";
 import { ImagePreview } from "vant";
 Vue.use(ImagePreview);
 import navBar from "@/components/navbar/navbar.vue";
+// import "../../../public/js/llqrcode.js";
 export default {
   name: "qrcode",
   components: {
@@ -82,8 +74,7 @@ export default {
     return {
       list: [],
       show: false,
-      payment: null,
-      paymentText: "请选择二维码类型",
+      paymentText: "二维码类型",
       option: [{ text: "微信", value: 1 }, { text: "支付宝", value: 2 }],
       loading: false,
       optionShow: false,
@@ -112,31 +103,63 @@ export default {
       });
     },
     upload(file) {
-      if (!this.payment) {
-        this.$toast.fail("请先选择二维码类型！");
-        return;
-      }
-      this.loading = true;
-      let formData = new FormData();
-      formData.append("file", file.file);
-      formData.append("token", this.$store.state.token);
-      formData.append("payment", this.payment);
+      var that = this
+      that.loading = true;
+      var newfile = that.getObjectURL(file.file);
+      qrcode.decode(newfile);
+      qrcode.callback = function(imgMsg) {
+        if (imgMsg.indexOf("wxp://")>-1) {
+          that.paymentText = "微信二维码";
+          that.update_qrcode({
+            payment:1,
+            url:imgMsg
+          })
+        } else if(imgMsg.indexOf("https://qr.alipay.com/")>-1) {
+          that.paymentText = "支付宝二维码";
+          that.update_qrcode({
+            payment:2,
+            url:imgMsg
+          })
+        }else{
+          that.$toast.fail('没有识别到微信或支付宝二维码')
+          that.loading = false;
+        }
+      };
+
+    },
+    update_qrcode(json){
       this.$SERVER
-        .update_qrcode(formData)
+        .update_qrcode(json)
         .then(res => {
           this.getList();
           this.loading = false;
           this.show = false;
+          this.paymentText = "二维码类型"
         })
         .catch(err => {
           this.loading = false;
           this.$toast.fail(err.msg);
+          this.paymentText = "二维码类型"
         });
     },
-    optionFn(e) {
-      this.payment = e.target.dataset.type;
-      this.paymentText = e.target.innerText;
-      this.optionShow = false;
+    getObjectURL(file) {
+      var url = null;
+
+      if (window.createObjectURL != undefined) {
+        // basic
+
+        url = window.createObjectURL(file);
+      } else if (window.URL != undefined) {
+        // mozilla(firefox)
+
+        url = window.URL.createObjectURL(file);
+      } else if (window.webkitURL != undefined) {
+        // webkit or chrome
+
+        url = window.webkitURL.createObjectURL(file);
+      }
+
+      return url;
     },
     selectDel(index) {
       this.list[index].del = !this.list[index].del;

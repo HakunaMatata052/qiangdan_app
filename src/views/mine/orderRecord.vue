@@ -5,7 +5,8 @@
       <div class="btn-group">
         <div class="btn" @click="$router.push('/recharge')">体力值充值</div>
         <div class="btn" @click="$router.push('/')">立即去抢单</div>
-      </div>
+      </div>      
+      <van-divider v-if="JSON.stringify(list)=='[]'">暂无数据</van-divider>
       <van-collapse v-model="activeTime" :border="false " accordion @change="getMon">
         <van-collapse-item :title="key" :name="key" :border="false" v-for="(i,key) in list" :key="key">
           <div class="list">
@@ -19,7 +20,6 @@
           </div>
         </van-collapse-item>
       </van-collapse>
-      <van-divider v-if="JSON.stringify(list)=='{}'">暂无数据</van-divider>
     </div>
   </div>
 </template>
