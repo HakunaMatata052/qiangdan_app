@@ -37,7 +37,6 @@
 <script>
 import user_img from "@/assets/images/default.png";
 import grade from "@/components/user/grade.vue"; 
-import { install } from "vant";
 export default {
   name: "mine",
   components:{

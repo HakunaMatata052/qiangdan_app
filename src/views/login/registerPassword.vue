@@ -45,7 +45,6 @@
   </div>
 </template>
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "register",
@@ -67,7 +66,7 @@ export default {
   methods: {
     regFn() {
       var that = this;
-      if (!regexUtil.isPassword(this.$store.state.register.newpassword)) {
+      if (!this.$METHOD.isPassword(this.$store.state.register.newpassword)) {
         this.$toast.fail("请输入6-11位字母数字组合密码");
         return;
       }
@@ -96,7 +95,7 @@ export default {
             );
             that.$router.push("/");
           } else {
-            window.location.href = "https://fir.im/qiangda";
+            window.location.href = that.$store.state.resUrl;
           }
         })
         .catch(err => {

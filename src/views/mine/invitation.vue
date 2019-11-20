@@ -41,12 +41,12 @@ export default {
     };
   },
   created() {
-    if(this.$store.state.userInfo.proxy == 7){
-      this.$toast.fail('您的等级无法邀请用户！')
-      this.$router.push('/')
-    }
     this.$SERVER.spread().then(res => {
       this.info = res.data;
+    }).catch(err=>{
+      setTimeout(() => {
+              this.$router.push('/')
+      }, 1000);
     });
   },
   methods: {

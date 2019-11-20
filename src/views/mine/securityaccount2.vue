@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "securityaccount2",
@@ -71,7 +70,7 @@ export default {
         this.$toast.fail("该手机号与当前绑定的手机号相同");
         return;
       }
-      if (regexUtil.isPhone(this.form.user_account)) {
+      if (this.$METHOD.isPhone(this.form.user_account)) {
         const timer_COUNT = 60;
         if (!this.timer) {
           this.countDown = timer_COUNT;
@@ -104,7 +103,7 @@ export default {
       }
     },
     submit() {
-      if (!regexUtil.isPhone(this.form.user_account)) {
+      if (!this.$METHOD.isPhone(this.form.user_account)) {
         this.$toast.fail("请输入正确的手机号码");
         return;
       }

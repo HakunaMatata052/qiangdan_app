@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "securityaccount",
@@ -66,7 +65,7 @@ export default {
   },
   methods: {
     sendchecknum() {
-      if (regexUtil.isPhone(this.$store.state.userInfo.user_account)) {
+      if (this.$METHOD.isPhone(this.$store.state.userInfo.user_account)) {
         const timer_COUNT = 60;
         if (!this.timer) {
           this.countDown = timer_COUNT;
@@ -99,7 +98,7 @@ export default {
       }
     },
     submit() {
-      if (!regexUtil.isPhone(this.$store.state.userInfo.user_account)) {
+      if (!this.$METHOD.isPhone(this.$store.state.userInfo.user_account)) {
         this.$toast.fail("请输入正确的手机号码");
         return;
       }

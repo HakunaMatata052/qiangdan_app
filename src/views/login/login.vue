@@ -6,7 +6,7 @@
       </div>
       <h1>
         登录
-        <small @click="$router.push('/register')">用户注册</small>
+        <!-- <small @click="$router.push('/register')">用户注册</small> -->
       </h1>
       <van-cell-group class="cell-group" :border="false">
         <van-field
@@ -41,7 +41,6 @@
   </div>
 </template>
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "login",
@@ -57,15 +56,10 @@ export default {
       loginLoading: false
     };
   },
-  created() {
-    if (this.$METHOD.getStore("token")) {
-      this.$router.push("/");
-    }
-  },
   methods: {
     loginFn() {
       var that = this;
-      if (!regexUtil.isPhone(that.form.user_account)) {
+      if (!this.$METHOD.isPhone(that.form.user_account)) {
         this.$toast.fail("请输入正确的手机号码");
         return;
       }

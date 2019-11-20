@@ -27,7 +27,7 @@ const router = new Router({
           meta: {
             keepAlive: true,
             isTransition: true,
-            title:"抢单",
+            title:"首页",
             isMember: false,
             isLogin:false,
             index: 0
@@ -321,25 +321,11 @@ router.beforeEach((to, from, next) => {
     store.state.tabActiveIndex = to.meta.index
   }
   if (to.meta.isLogin) {
-    if (!window.localStorage.getItem('token')) {
-      if(from.name=="login"){
-        router.push('/')
-      }else{
-        router.push('/login/'+from.name)
-      }      
+    if (!window.localStorage.getItem('token')) {      
+      // next({path: "/login"});
+      router.push('/login')
     }else{
       next()
-    }
-    if (to.meta.isMember) {
-      if (!window.localStorage.getItem('token')) {
-        router.push('/login/'+from.name)
-      }else{
-        if (store.state.isMember) {
-          next()
-        }else{
-          router.push('/buymember')
-        }
-      }
     }
   }else {
     next()

@@ -80,6 +80,7 @@ export default {
       );
       this.push = api.require("push");
       this.push.setListener(function(ret, err) {
+        console.log(ret)
         if (ret) {
           var content = JSON.parse(ret.data);
           var des = content.c.replace("<br>", "");

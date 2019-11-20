@@ -56,7 +56,6 @@
   </div>
 </template>
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 export default {
   name: "resetPassword",
@@ -118,7 +117,7 @@ export default {
       }
     },
     regFn() {
-      if (!regexUtil.isPhone(this.form.telephone)) {
+      if (!this.$METHOD.isPhone(this.form.telephone)) {
         this.$toast.fail("请输入正确的手机号码");
         return;
       }
@@ -127,7 +126,7 @@ export default {
         return;
       }
 
-      if (!regexUtil.isPassword(this.form.password)) {
+      if (!this.$METHOD.isPassword(this.form.password)) {
         this.$toast.fail("请输入6-11位字母数字组合密码");
         return;
       }

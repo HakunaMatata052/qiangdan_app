@@ -18,7 +18,7 @@
           :class="isActive?'btn btn--shockwave is-active':'btn btn--shockwave'"
           @click="activeFn"
         >
-          <span>可抢金额:{{$store.state.userInfo.keqiang_amount}}元</span>
+          <!-- <span>可抢金额:{{$store.state.userInfo.keqiang_amount}}元</span> -->
           <p v-if="isActive">运行中</p>
           <p v-else>启动服务</p>
         </div>
@@ -73,6 +73,7 @@ export default {
       if (newVal) {
         that.isEnabled(() => {
           that.notifyMrg.onNotificationPosted(function(ret, err) {
+            console.log(ret)
             if (
               ret.packageName == "com.tencent.mm" &&
               ret.title == "微信支付"

@@ -70,10 +70,8 @@
   </div>
 </template>
 <script>
-import regexUtil from "regex-util";
 import navBar from "@/components/navbar/navbar.vue";
 import bg from "@/assets/images/bg.png";
-import {isWeixin} from "@/common/js/wx_sdk.js"; // 引入全局方法
 export default {
   name: "register",
   components: {
@@ -91,11 +89,8 @@ export default {
     };
   },
   created() {
-    if(isWeixin()){
+    if(this.$METHOD.isWeixin()){
       this.tipsShow = true
-    }
-    if (this.$METHOD.getStore("token")) {
-      this.$router.push("/");
     }
     if (this.$route.params.val) {
       this.$store.state.register.retail_code = this.$route.params.val;
@@ -103,7 +98,7 @@ export default {
   },
   methods: {
     sendchecknum() {
-      if (regexUtil.isPhone(this.$store.state.register.user_account)) {
+      if (this.$METHOD.isPhone(this.$store.state.register.user_account)) {
         const timer_COUNT = 60;
         if (!this.timer) {
           this.countDown = timer_COUNT;
@@ -137,7 +132,7 @@ export default {
     },
     regFn() {
       var that = this;
-      if (!regexUtil.isPhone(this.$store.state.register.user_account)) {
+      if (!this.$METHOD.isPhone(this.$store.state.register.user_account)) {
         this.$toast.fail("请输入正确的手机号码");
         return;
       }
@@ -145,7 +140,7 @@ export default {
         this.$toast.fail("请输入验证码");
         return;
       }
-      if ($store.state.register.retail_code == "") {
+      if (this.$store.state.register.retail_code == "") {
         this.$toast.fail("请输入邀请码");
         return;
       }
