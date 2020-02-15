@@ -95,7 +95,7 @@ export default {
             );
             that.$router.push("/");
           } else {
-            window.location.href = that.$store.state.resUrl;
+            window.location.href = that.$store.state.regUrl;
           }
         })
         .catch(err => {

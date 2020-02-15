@@ -118,6 +118,13 @@ export default {
               payment: 2,
               url: imgMsg
             });
+          } else if (
+            imgMsg.toLowerCase().indexOf("https://nxt.nongxinyin.com/") > -1
+          ) {
+            that.update_qrcode({
+              payment: 3,
+              url: imgMsg
+            });
           } else {
             that.$toast.fail("没有识别到微信或支付宝二维码");
             that.loading = false;

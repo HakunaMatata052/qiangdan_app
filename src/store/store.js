@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     message:null,
     recharge:null,
-    qq:"1941175861",
+    qq:"",
     regUrl:"https://fir.im/hc8p",
   },
   mutations: {},

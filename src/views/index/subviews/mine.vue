@@ -58,6 +58,7 @@ export default {
   created() {    
     this.$SERVER.information().then(res => {
           this.$store.state.userInfo = res.data;
+          this.$store.state.qq = res.data.kefu
     })
   },
   mounted() {},
